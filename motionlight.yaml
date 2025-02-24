@@ -1,93 +1,127 @@
 blueprint:
-  name: Motion-Activated Light with House Mode
+  name: "GammelGarderobe: Automatic Light"
   description: >
-    This blueprint controls a light based on motion detection and
-    house mode changes. The light will turn on when motion is detected,
-    adjust brightness based on the house mode, and turn off after a delay.
+    Controls the light based on motion and house mode.
   domain: automation
   input:
-    motion_entity:
+    motion_sensor:
       name: Motion Sensor
-      description: Select your motion sensor entity.
+      description: Choose the motion sensor to use.
       selector:
         entity:
           domain: binary_sensor
           device_class: motion
     light_entity:
       name: Light
-      description: Select the light to control.
+      description: Choose the light to control.
       selector:
         entity:
           domain: light
-    delay_turn_off:
-      name: Delay to Turn Off
-      description: Time to wait before turning off the light after motion stops.
-      default: '00:05:00'
-      selector:
-        time:
-    brightness_day:
-      name: Brightness Level Day
-      description: Brightness level when house mode is not 'natt'.
-      default: 255
-      selector:
-        number:
-          min: 1
-          max: 255
-    brightness_night:
-      name: Brightness Level Night
-      description: Brightness level when house mode is 'natt'.
-      default: 100
-      selector:
-        number:
-          min: 1
-          max: 255
     house_mode:
       name: House Mode Selector
       description: Select your house mode entity.
       selector:
         entity:
           domain: input_select
-  trigger:
-    - platform: state
-      entity_id: !input motion_entity
-      to: 'on'
-    - platform: state
-      entity_id: !input house_mode
-  condition: []
-  action:
-    - choose:
-        - conditions:
-            - condition: state
-              entity_id: !input motion_entity
-              state: 'on'
-          sequence:
-            - choose:
-                - conditions:
-                    - condition: state
-                      entity_id: !input house_mode
-                      state: 'natt'
-                  sequence:
-                    - service: light.turn_on
-                      target:
-                        entity_id: !input light_entity
-                      data:
-                        brightness: !input brightness_night
-              default:
-                - service: light.turn_on
-                  target:
-                    entity_id: !input light_entity
-                  data:
-                    brightness: !input brightness_day
-        - conditions:
-            - condition: state
-              entity_id: !input house_mode
-              state: 'Borte'
-          sequence:
-            - service: light.turn_off
-              target:
-                entity_id: !input light_entity
-      default:
-        - delay: !input delay_turn_off
-        - service: light.turn_off
-          target:
-            entity_id: !input light_entity
+    delay_turn_off:
+      name: Delay to Turn Off
+      description: Seconds to wait before turning off the light after motion stops.
+      default: 120
+      selector:
+        number:
+          min: 1
+          max: 3600
+          unit_of_measurement: seconds
+    brightness_night:
+      name: Brightness Level Night
+      description: Brightness level when house mode is 'Natt'.
+      default: 10
+      selector:
+        number:
+          min: 1
+          max: 100
+    brightness_late:
+      name: Brightness Level Late
+      description: Brightness level for late hours.
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 100
+    brightness_default:
+      name: Brightness Level Default
+      description: Default brightness level.
+      default: 70
+      selector:
+        number:
+          min: 1
+          max: 100
+
+trigger:
+  - platform: state
+    entity_id: !input motion_sensor
+    from: "off"
+    to: "on"
+  - platform: state
+    entity_id: !input house_mode
+
+condition: []
+
+action:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: !input motion_sensor
+            state: 'on'
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: !input house_mode
+                    state: 'Natt'
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: !input light_entity
+                    data:
+                      brightness_pct: !input brightness_night
+              - conditions:
+                  - condition: time
+                    after: "21:00:00"
+                    weekday:
+                      - sun
+                      - mon
+                      - tue
+                      - wed
+                      - thu
+                      - fri
+                      - sat
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: !input light_entity
+                    data:
+                      brightness_pct: !input brightness_late
+              - conditions: []
+                sequence:
+                  - service: light.turn_on
+                    target:
+                      entity_id: !input light_entity
+                    data:
+                      brightness_pct: !input brightness_default
+          - wait_for_trigger:
+              - platform: state
+                entity_id: !input motion_sensor
+                from: 'on'
+                to: 'off'
+          - delay: !input delay_turn_off
+          - service: light.turn_off
+            target:
+              entity_id: !input light_entity
+    default:
+      - service: light.turn_off
+        target:
+          entity_id: !input light_entity
+
+mode: restart
+max_exceeded: silent
