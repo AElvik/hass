@@ -26,7 +26,7 @@ blueprint:
     delay_turn_off:
       name: Delay to Turn Off
       description: Seconds to wait before turning off the light after motion stops.
-      default: 120
+      default: 300
       selector:
         number:
           min: 1
@@ -35,7 +35,7 @@ blueprint:
     brightness_night:
       name: Brightness Level Night
       description: Brightness level when house mode is 'Natt'.
-      default: 10
+      default: 1
       selector:
         number:
           min: 1
@@ -87,7 +87,7 @@ action:
                       brightness_pct: !input brightness_night
               - conditions:
                   - condition: time
-                    after: "21:00:00"
+                    after: "19:00:00"
                     weekday:
                       - sun
                       - mon
