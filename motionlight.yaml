@@ -17,12 +17,6 @@ blueprint:
       selector:
         entity:
           domain: light
-    house_mode:
-      name: House Mode Selector
-      description: Select your house mode entity.
-      selector:
-        entity:
-          domain: input_select
     delay_turn_off:
       name: Delay to Turn Off
       description: Seconds to wait before turning off the light after motion stops.
@@ -63,7 +57,7 @@ trigger:
     from: "off"
     to: "on"
   - platform: state
-    entity_id: !input house_mode
+    entity_id: input_select.house_mode
 
 condition: []
 
@@ -77,7 +71,7 @@ action:
           - choose:
               - conditions:
                   - condition: state
-                    entity_id: !input house_mode
+                    entity_id: input_select.house_mode
                     state: 'Natt'
                 sequence:
                   - service: light.turn_on
