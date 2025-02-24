@@ -1,5 +1,5 @@
 blueprint:
-  name: "GammelGarderobe: Automatic Light"
+  name: "Automatic lights based on motion and house mode"
   description: >
     Controls the light based on motion and house mode.
   domain: automation
