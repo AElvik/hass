@@ -97,7 +97,7 @@ action:
                           - choose:
                               - conditions:
                                   - condition: template
-                                    value_template: "{{ '!input secondary_entity'.split('.')[0] == 'light' }}"
+                                    value_template: "{{ secondary_entity.split('.')[0] == 'light' }}"
                                 sequence:
                                   - service: light.turn_on
                                     target:
@@ -106,7 +106,7 @@ action:
                                       brightness_pct: !input brightness_night
                               - conditions:
                                   - condition: template
-                                    value_template: "{{ '!input secondary_entity'.split('.')[0] == 'switch' }}"
+                                    value_template: "{{ secondary_entity.split('.')[0] == 'switch' }}"
                                 sequence:
                                   - service: switch.turn_on
                                     target:
@@ -136,7 +136,7 @@ action:
                           - choose:
                               - conditions:
                                   - condition: template
-                                    value_template: "{{ '!input secondary_entity'.split('.')[0] == 'light' }}"
+                                    value_template: "{{ secondary_entity.split('.')[0] == 'light' }}"
                                 sequence:
                                   - service: light.turn_on
                                     target:
@@ -145,7 +145,7 @@ action:
                                       brightness_pct: !input brightness_late
                               - conditions:
                                   - condition: template
-                                    value_template: "{{ '!input secondary_entity'.split('.')[0] == 'switch' }}"
+                                    value_template: "{{ secondary_entity.split('.')[0] == 'switch' }}"
                                 sequence:
                                   - service: switch.turn_on
                                     target:
@@ -165,7 +165,7 @@ action:
                           - choose:
                               - conditions:
                                   - condition: template
-                                    value_template: "{{ '!input secondary_entity'.split('.')[0] == 'light' }}"
+                                    value_template: "{{ secondary_entity.split('.')[0] == 'light' }}"
                                 sequence:
                                   - service: light.turn_on
                                     target:
@@ -174,7 +174,7 @@ action:
                                       brightness_pct: !input brightness_default
                               - conditions:
                                   - condition: template
-                                    value_template: "{{ '!input secondary_entity'.split('.')[0] == 'switch' }}"
+                                    value_template: "{{ secondary_entity.split('.')[0] == 'switch' }}"
                                 sequence:
                                   - service: switch.turn_on
                                     target:
@@ -196,14 +196,14 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ '!input secondary_entity'.split('.')[0] == 'light' }}"
+                            value_template: "{{ secondary_entity.split('.')[0] == 'light' }}"
                         sequence:
                           - service: light.turn_off
                             target:
                               entity_id: !input secondary_entity
                       - conditions:
                           - condition: template
-                            value_template: "{{ '!input secondary_entity'.split('.')[0] == 'switch' }}"
+                            value_template: "{{ secondary_entity.split('.')[0] == 'switch' }}"
                         sequence:
                           - service: switch.turn_off
                             target:
@@ -220,14 +220,14 @@ action:
               - choose:
                   - conditions:
                       - condition: template
-                        value_template: "{{ '!input secondary_entity'.split('.')[0] == 'light' }}"
+                        value_template: "{{ secondary_entity.split('.')[0] == 'light' }}"
                     sequence:
                       - service: light.turn_off
                         target:
                           entity_id: !input secondary_entity
                   - conditions:
                       - condition: template
-                        value_template: "{{ '!input secondary_entity'.split('.')[0] == 'switch' }}"
+                        value_template: "{{ secondary_entity.split('.')[0] == 'switch' }}"
                     sequence:
                       - service: switch.turn_off
                         target:
