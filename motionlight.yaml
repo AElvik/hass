@@ -114,16 +114,12 @@ action:
                             target:
                               entity_id: !input secondary_switch
               - conditions:
-                  - condition: time
-                    after: "19:00:00"
-                    weekday:
-                      - sun
-                      - mon
-                      - tue
-                      - wed
-                      - thu
-                      - fri
-                      - sat
+                  - condition: or
+                    conditions:
+                      - condition: time
+                        after: "19:00:00"
+                      - condition: time
+                        before: "06:00:00"
                 sequence:
                   - service: light.turn_on
                     target:
@@ -178,6 +174,8 @@ action:
                 entity_id: !input motion_sensor
                 from: 'on'
                 to: 'off'
+            timeout:
+              hours: 2
           - delay: !input delay_turn_off
           - service: light.turn_off
             target:
