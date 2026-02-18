@@ -98,7 +98,7 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ secondary_light not in [None, '', 'unavailable', 'unknown'] }}"
+                            value_template: "{{ secondary_light is defined and secondary_light | string | trim != '' and secondary_light | length > 0 }}"
                         sequence:
                           - service: light.turn_on
                             target:
@@ -108,7 +108,7 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ secondary_switch not in [None, '', 'unavailable', 'unknown'] }}"
+                            value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
                         sequence:
                           - service: switch.turn_on
                             target:
@@ -133,7 +133,7 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ secondary_light not in [None, '', 'unavailable', 'unknown'] }}"
+                            value_template: "{{ secondary_light is defined and secondary_light | string | trim != '' and secondary_light | length > 0 }}"
                         sequence:
                           - service: light.turn_on
                             target:
@@ -143,7 +143,7 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ secondary_switch not in [None, '', 'unavailable', 'unknown'] }}"
+                            value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
                         sequence:
                           - service: switch.turn_on
                             target:
@@ -158,7 +158,7 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ secondary_light not in [None, '', 'unavailable', 'unknown'] }}"
+                            value_template: "{{ secondary_light is defined and secondary_light | string | trim != '' and secondary_light | length > 0 }}"
                         sequence:
                           - service: light.turn_on
                             target:
@@ -168,7 +168,7 @@ action:
                   - choose:
                       - conditions:
                           - condition: template
-                            value_template: "{{ secondary_switch not in [None, '', 'unavailable', 'unknown'] }}"
+                            value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
                         sequence:
                           - service: switch.turn_on
                             target:
@@ -185,14 +185,14 @@ action:
           - choose:
               - conditions:
                   - condition: template
-                    value_template: "{{ secondary_light not in [None, '', 'unavailable', 'unknown'] }}"
+                    value_template: "{{ secondary_light is defined and secondary_light | string | trim != '' and secondary_light | length > 0 }}"
                 sequence:
                   - service: light.turn_off
                     target:
                       entity_id: !input secondary_light
               - conditions:
                   - condition: template
-                    value_template: "{{ secondary_switch not in [None, '', 'unavailable', 'unknown'] }}"
+                    value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
                 sequence:
                   - service: switch.turn_off
                     target:
@@ -204,14 +204,14 @@ action:
       - choose:
           - conditions:
               - condition: template
-                value_template: "{{ secondary_light not in [None, '', 'unavailable', 'unknown'] }}"
+                value_template: "{{ secondary_light is defined and secondary_light | string | trim != '' and secondary_light | length > 0 }}"
             sequence:
               - service: light.turn_off
                 target:
                   entity_id: !input secondary_light
           - conditions:
               - condition: template
-                value_template: "{{ secondary_switch not in [None, '', 'unavailable', 'unknown'] }}"
+                value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
             sequence:
               - service: switch.turn_off
                 target:
