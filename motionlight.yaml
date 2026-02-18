@@ -190,6 +190,7 @@ action:
                   - service: light.turn_off
                     target:
                       entity_id: !input secondary_light
+          - choose:
               - conditions:
                   - condition: template
                     value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
@@ -209,6 +210,7 @@ action:
               - service: light.turn_off
                 target:
                   entity_id: !input secondary_light
+      - choose:
           - conditions:
               - condition: template
                 value_template: "{{ secondary_switch is defined and secondary_switch | string | trim != '' and secondary_switch | length > 0 }}"
