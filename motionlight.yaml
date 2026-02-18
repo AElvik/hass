@@ -77,6 +77,10 @@ trigger:
 
 condition: []
 
+variables:
+  secondary_light: !input secondary_light
+  secondary_switch: !input secondary_switch
+
 action:
   - choose:
       - conditions:
