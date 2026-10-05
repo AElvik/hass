@@ -51,8 +51,8 @@ blueprint:
           min: 1
           max: 100
     brightness_late:
-      name: Brightness Level Late
-      description: Brightness level for late hours.
+      name: Brightness Level Evening
+      description: Brightness level when house mode is 'Kveld'.
       default: 30
       selector:
         number:
@@ -118,12 +118,9 @@ action:
                             target:
                               entity_id: !input secondary_switch
               - conditions:
-                  - condition: or
-                    conditions:
-                      - condition: time
-                        after: "19:00:00"
-                      - condition: time
-                        before: "06:00:00"
+                  - condition: state
+                    entity_id: input_select.house_mode
+                    state: 'Kveld'
                 sequence:
                   - service: light.turn_on
                     target:
